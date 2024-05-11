@@ -1,0 +1,15 @@
+<div class="row">
+  <h1>Search:</h1>
+  <input type="text" class="searchBar"/>
+</div>
+<button (click)="search()">Search</button>
+
+<div class="meal-container">
+  <div *ngFor="let meal of meals">
+    <div class="meal">
+      <img [src]="meal.strMealThumb" alt="meal image"/>
+      <h3>{{meal.strMeal}}</h3>
+      <p>{{meal.strInstructions}}</p>
+    </div>
+  </div>
+</div>

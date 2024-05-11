@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0 2rem;
+  background-color: #333;
+  color: white;
+  height: 4rem;
+}
+
+.container .navbar-logo img {
+  height: 3rem;
+}
+
+.container ul {
+  display: flex;
+  list-style-type: none;
+  gap: 2rem;
+}
+
+.container ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.container ul li a:hover {
+  color: #4CAF50;
+}
+
+.container ul li a.routerLinkActive {
+  color: #4CAF50;
+}
