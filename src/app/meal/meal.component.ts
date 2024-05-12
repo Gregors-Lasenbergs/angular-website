@@ -1,4 +1,6 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import {addMealToSaved, Meal} from '../Utils';
+import {identity} from "rxjs";
 
 @Component({
   selector: 'app-meal',
@@ -8,11 +10,11 @@ import {Component, Input} from '@angular/core';
   styleUrl: './meal.component.css'
 })
 
-
-
 export class MealComponent {
-  @Input() strInstructions: String =  "";
-  @Input() idMeal: Number = 0;
-  @Input() strMeal: String =  "";
-  @Input() strMealThumb: String =  "";
+  @Input() meal!: Meal;
+
+  saveMeal() {
+    const id = Number(this.meal.idMeal)
+    addMealToSaved(id);
+  }
 }

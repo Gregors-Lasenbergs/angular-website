@@ -1,2 +1,6 @@
-<div>
+<div class="meal">
+  <img [src]="meal.strMealThumb" alt="meal image"/>
+  <h3>{{meal.strMeal}}</h3>
+  <p>{{meal.strInstructions}}</p>
+  <button (click)="saveMeal()">Save</button>
 </div>

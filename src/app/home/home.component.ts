@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NavBarComponent} from "../nav-bar/nav-bar.component";
-import {getMeals} from "../Utils";
+import {getMeals, getSavedMeals, addMealToSaved} from "../Utils";
 import {MealComponent} from "../meal/meal.component";
 import {NgForOf} from "@angular/common";
 import {Meal} from "../Utils";
@@ -19,9 +19,10 @@ import {Meal} from "../Utils";
 
 export class HomeComponent implements OnInit {
   meals: Meal[] = [];
+  savedMeals: Meal[] = [];
 
-  ngOnInit() {
-    this.fetchMeals('');
+  async ngOnInit() {
+    await this.fetchMeals('');
   }
 
   async fetchMeals(mealName: string) {
