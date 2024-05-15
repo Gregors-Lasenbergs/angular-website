@@ -45,17 +45,26 @@ async function getSavedMealId() {
   }
 }
 
-const addMealToSaved = async (id: number) => {
-  const taskUrl = `http://localhost:3004/saved/`;
-  await axios.post(taskUrl, {
-    idMeal: id
-  })
-    .then((response) => {
-      console.log("Meal added successfully", response.data);
+const addMealToSaved = (mealId: number) => {
+  const savedMealUrl = `http://localhost:3004/saved`;
+
+  getSavedMealId().then((savedMealId) => {
+    if (savedMealId.includes(mealId)) {
+      window.alert('Meal already saved!');
+      console.error('Meal already saved: ', mealId);
+      return;
+    }
+    axios.post(savedMealUrl, {
+      idMeal: mealId
     })
-    .catch((error) => {
-      console.error("Failed to add meal to DataBase", error);
-    });
+      .then((response) => {
+        window.confirm('Meal saved successfully!');
+        console.log('Meal saved successfully', response.data);
+      })
+      .catch((error) => {
+        console.error('Failed to save meal', error);
+      });
+  });
 }
 
 async function getSavedMeals() {

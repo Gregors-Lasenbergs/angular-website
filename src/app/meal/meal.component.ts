@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, Type} from '@angular/core';
 import {addMealToSaved, Meal} from '../Utils';
-import {identity} from "rxjs";
+import {type} from "node:os";
 
 @Component({
   selector: 'app-meal',
@@ -14,7 +14,12 @@ export class MealComponent {
   @Input() meal!: Meal;
 
   saveMeal() {
-    const id = Number(this.meal.idMeal)
+    const id: number = Number(this.meal.idMeal);
+    // check id type
+    if (typeof id !== 'number') {
+      console.error('Invalid meal id');
+      return;
+    }
     addMealToSaved(id);
   }
 }
