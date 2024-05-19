@@ -1,4 +1,17 @@
-<div class="meal-container">
+<div>
+  <button (click)="addMealToYour() ">Add your meal</button>
+  <div class="add-your-meal" #element>
+    <h3>Add your meal</h3>
+    <input class="add-your-meal__name" type="text" placeholder="Meal name" />
+    <input class="add-your-meal__image" type="text" placeholder="Image url" />
+    <input class="add-your-meal__instructions" type="text" placeholder="Instructions" />
+    <button (click)="addYourMeal()">Add</button>
+  </div>
+  <h2>Your:</h2>
+  <div class="meal-container">
+    <app-meal *ngFor="let meal of userMeals" [meal]="meal"></app-meal>
+  </div>
+  <h2>Saved:</h2>
   <div class="meal-container">
     <app-meal *ngFor="let meal of meals" [meal]="meal"></app-meal>
   </div>

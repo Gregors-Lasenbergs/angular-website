@@ -4,3 +4,33 @@
   justify-content: center;
 }
 
+/*@keyframes smooth-appear {*/
+/*  0% {*/
+/*    opacity: 0;*/
+/*    transform: translateY(-50px);*/
+/*  }*/
+/*  100% {*/
+/*    opacity: 1;*/
+/*    transform: translateY(0);*/
+/*  }*/
+/*}*/
+.add-your-meal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s ease-in-out;
+  width: 100%;
+}
+
+.add-your-meal.show {
+  max-height: 1000px; /* This value should be larger than the actual height of the div */
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+

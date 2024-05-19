@@ -19,7 +19,6 @@ import {Meal} from "../Utils";
 
 export class HomeComponent implements OnInit {
   meals: Meal[] = [];
-  savedMeals: Meal[] = [];
 
   async ngOnInit() {
     await this.fetchMeals('');
