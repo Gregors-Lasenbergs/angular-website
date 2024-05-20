@@ -9,10 +9,14 @@
   </div>
   <h2>Your:</h2>
   <div class="meal-container">
-    <app-meal *ngFor="let meal of userMeals" [meal]="meal"></app-meal>
+    <app-meal *ngFor="let meal of userMeals" [meal]="meal" [saved]="'false'"
+              (mealUpdated)="fetchUserMeals();">
+    </app-meal>
   </div>
   <h2>Saved:</h2>
   <div class="meal-container">
-    <app-meal *ngFor="let meal of meals" [meal]="meal"></app-meal>
+    <app-meal *ngFor="let meal of meals" [meal]="meal" [saved]="'true'"
+              (mealUpdated)="fetchSavedMeals();">
+    </app-meal>
   </div>
 </div>

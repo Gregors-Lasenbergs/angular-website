@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export type Meal = {
-  idMeal?: number
+  id: number
+  idMeal: number
   strMeal: string
   strInstructions: string
   strMealThumb: string
@@ -23,12 +24,28 @@ try {
     const response = await axios.get(mealUrl);
     if (typeof mealName === 'undefined') {
       response.data.forEach((element: Meal) => {
-        meals.push(element);
+        const newMeal: Meal = {
+          id: element.id,
+          idMeal: element.idMeal,
+          strMeal: element.strMeal,
+          strInstructions: element.strInstructions,
+          strMealThumb: element.strMealThumb
+        };
+        console.log('newMealUndefined', newMeal);
+        meals.push(newMeal);
       });
     }
     else {
       response.data.meals.forEach((element: Meal) => {
-        meals.push(element);
+        const newMeal: Meal = {
+          id: element.idMeal,
+          idMeal: element.idMeal,
+          strMeal: element.strMeal,
+          strInstructions: element.strInstructions,
+          strMealThumb: element.strMealThumb
+        };
+        console.log('newMealmeals', newMeal);
+        meals.push(newMeal);
       });
     }
     console.log('Meals received successfully', response.data);
@@ -50,7 +67,6 @@ async function getSavedMealId() {
   const savedMeals: number[] = [];
   try {
     const response = await axios.get(savedMealUrl);
-    console.log('Saved meals received successfully', response.data);
     response.data.forEach((element: Meal) => {
       if (element.idMeal != null) {
         savedMeals.push(element.idMeal);
@@ -63,7 +79,18 @@ async function getSavedMealId() {
   }
 }
 
-const addMealToSaved = (mealId: number) => {
+const editSavedMeal = (meal: Meal): any => {
+  const savedMealUrl = `http://localhost:3004/saved`;
+  axios.put(savedMealUrl + `/${meal.idMeal}`, meal)
+    .then((response) => {
+      console.log('Meal edited successfully', response.data);
+    })
+    .catch((error) => {
+      console.error('Failed to edit meal', error);
+    });
+}
+
+const addMealToSaved = (mealId: number):any => {
   const savedMealUrl = `http://localhost:3004/saved`;
 
   getSavedMealId().then((savedMealId) => {
@@ -72,11 +99,15 @@ const addMealToSaved = (mealId: number) => {
       console.error('Meal already saved: ', mealId);
       return;
     }
-    axios.post(savedMealUrl, {
-      idMeal: mealId
-    })
+    let newMeal: Meal = {
+      id: mealId,
+      idMeal: mealId,
+      strMeal: "",
+      strInstructions: "",
+      strMealThumb: ""
+    };
+    axios.post(savedMealUrl, newMeal)
       .then((response) => {
-        window.confirm('Meal saved successfully!');
         console.log('Meal saved successfully', response.data);
       })
       .catch((error) => {
@@ -85,32 +116,59 @@ const addMealToSaved = (mealId: number) => {
   });
 }
 
+const removeMealFromDb = (id: number, saved: boolean): any => {
+  let savedMealUrl;
+  if (saved) {
+    savedMealUrl = 'http://localhost:3004/saved';
+  }
+  else {
+    savedMealUrl = 'http://localhost:3004/your';
+  }
+  console.log(saved);
+  console.log(id);
+  axios.delete(savedMealUrl + `/${id}`)
+    .then((response) => {
+      console.log('Meal deleted successfully', response.data);
+    })
+    .catch((error) => {
+      console.error('Failed to delete meal', error);
+    });
+
+}
+
 async function getSavedMeals() {
   const savedMealId: number[] = await getSavedMealId();
   let meals: Meal[] = [];
   for (let i = 0; i < savedMealId.length; i++) {
     const meal = await getMealById(savedMealId[i]);
-    meals.push(meal);
+    const newMeal: Meal = {
+      id: meal.idMeal,
+      idMeal: meal.idMeal,
+      strMeal: meal.strMeal,
+      strInstructions: meal.strInstructions,
+      strMealThumb: meal.strMealThumb
+    };
+    meals.push(newMeal);
   }
   console.log('Saved meals', meals);
   return meals;
 }
 
-export function addYourMealToDb(meal: Meal) {
+function addYourMealToDb(meal: Meal):any {
   const savedMealUrl = `http://localhost:3004/your`;
   axios.post(savedMealUrl, {
+    id: meal.idMeal,
     strMeal: meal.strMeal,
     strInstructions: meal.strInstructions,
-    strMealThumb: meal.strMealThumb
+    strMealThumb: meal.strMealThumb,
+    idMeal: meal.idMeal
   })
     .then((response) => {
-      window.confirm('Meal saved successfully!');
       console.log('Meal saved successfully', response.data);
     })
     .catch((error) => {
       console.error('Failed to save meal', error);
     });
-
 }
 
-export { getMeals, getMealById, getSavedMeals, addMealToSaved }
+export {getMeals, getMealById, getSavedMeals, addMealToSaved, addYourMealToDb, removeMealFromDb, editSavedMeal}

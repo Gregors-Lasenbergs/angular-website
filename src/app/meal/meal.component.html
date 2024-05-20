@@ -1,4 +1,24 @@
-<div class="meal">
+<div *ngIf="saved === 'false'" class="meal">
+  <img [src]="meal.strMealThumb" alt="meal image"/>
+  <h3>{{meal.strMeal}}</h3>
+  <p>{{meal.strInstructions}}</p>
+  <button (click)="deleteMeal(false)">Delete</button>
+  <button (click)="showEditPopUp()">Edit</button>
+  <div class="meal-edit">
+    <input type="text" class="edit-name" placeholder="{{this.meal.strMeal}}"/>
+    <input type="text" class="edit-image" placeholder="{{this.meal.strMealThumb}}"/>
+    <input type="text" class="edit-instructions" placeholder="{{this.meal.strInstructions}}"/>
+    <button (click)="closeEditPopUp()">Close</button>
+    <button (click)="editYourMeal()">Save</button>
+  </div>
+</div>
+<div *ngIf="saved === 'true'" class="meal">
+  <img [src]="meal.strMealThumb" alt="meal image"/>
+  <h3>{{meal.strMeal}}</h3>
+  <p>{{meal.strInstructions}}</p>
+  <button (click)="deleteMeal(true)">Delete</button>
+</div>
+<div *ngIf="saved === 'none'" class="meal">
   <img [src]="meal.strMealThumb" alt="meal image"/>
   <h3>{{meal.strMeal}}</h3>
   <p>{{meal.strInstructions}}</p>

@@ -20,14 +20,14 @@ export class SavedComponent {
   meals: Meal[] = [];
   userMeals: Meal[] = [];
 
-  constructor(private renderer: Renderer2) { }
+
 
   async ngOnInit() {
     await this.fetchSavedMeals();
     await this.fetchUserMeals();
   }
 
-  private async fetchSavedMeals() {
+  protected async fetchSavedMeals() {
     try {
       this.meals = await getSavedMeals();
       console.log(this.meals);
@@ -37,7 +37,7 @@ export class SavedComponent {
     }
   }
 
-  private async fetchUserMeals() {
+  protected async fetchUserMeals() {
     try {
       this.userMeals = await getMeals();
       console.log(this.userMeals);
@@ -45,8 +45,6 @@ export class SavedComponent {
       console.error('Failed to fetch meals', error);
     }
   }
-
-  protected readonly addMealToSaved = addMealToSaved;
 
   addMealToYour() {
     if (!this.element) {
@@ -59,9 +57,8 @@ export class SavedComponent {
     const strMeal = (<HTMLInputElement>document.querySelector('.add-your-meal__name')).value;
     const strInstructions = (<HTMLInputElement>document.querySelector('.add-your-meal__instructions')).value;
     const strMealThumb = (<HTMLInputElement>document.querySelector('.add-your-meal__image')).value;
-    const meal:Meal = {strMeal, strInstructions, strMealThumb};
-
+    const meal:Meal = {id: Date.now(), strMeal, strInstructions, strMealThumb, idMeal: Date.now()};
     addYourMealToDb(meal);
-    this.fetchUserMeals().then(r => console.log('User meals updated'));
   }
 }
+
